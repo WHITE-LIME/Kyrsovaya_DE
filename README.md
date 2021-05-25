@@ -24,12 +24,12 @@
     </td>
   </tr>
   <tr>
-    <td style="text-align: center; border: none; height: 1em;">
+    <td style="text-align: right; border: none; height: 20em;">
         г.Йошкар-Ола, 2021
     </td>
   </tr>
   <tr>
-    <td style="text-align: center; border: none; height: 45em;">
+    <td style="text-align: center; border: none;">
         <h2>
 Введение
 	
