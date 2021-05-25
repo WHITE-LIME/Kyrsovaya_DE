@@ -1,0 +1,188 @@
+﻿<Window x:Class="DE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DE"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
+        FontFamily="Century Gothic"
+        WindowStyle="None">
+
+    <Grid Margin="10">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel 
+            Orientation="Vertical"
+            VerticalAlignment="Top"
+            Width="150">
+            <Button 
+                x:Name="AddButton"
+                Content="Добавить"
+                Click="AddButton_Click"
+                VerticalAlignment="Top"
+                Background="#a163f5"
+                FontSize="20"
+                FontFamily="Century Gothic"
+                Cursor="Hand"/>
+            <Button
+                x:Name="RefreshButton" 
+                Content="Обновить"
+                Click="RefreshButton_Click"
+                VerticalAlignment="Top"
+                Background="#a163f5"
+                FontSize="20"
+                FontFamily="Century Gothic"
+                Cursor="Hand"/>
+        </StackPanel>
+        <Button  
+            x:Name="Exit" 
+            Content="Выход" 
+            Click="Exit_Click" 
+            VerticalAlignment="Bottom"
+            Background="#a163f5"
+            FontSize="20"
+            FontFamily="Century Gothic"
+            Cursor="Hand"/>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <WrapPanel 
+                Orientation="Horizontal"
+                ItemHeight="50">
+                
+                <Label 
+                    Content="Сортировка: "
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Century Gothic"/>
+
+                <ComboBox
+                    Name="SortTypeComboBox"
+                    Height="20"
+                    SelectedIndex="0"
+                    VerticalContentAlignment="Center"
+                    MinWidth="200"
+                    SelectionChanged="SortTypeComboBox_SelectionChanged"
+                    ItemsSource="{Binding SortList}"
+                    Background="#d3d3d3"
+                    FontFamily="Century Gothic"
+                    Cursor="Hand"/>
+            </WrapPanel>
+
+            <ListView
+                Grid.Row="1"
+                ItemsSource="{Binding ProductList}"
+                x:Name="ProductListView"
+                BorderThickness="0"
+                MouseDoubleClick="ProductListView_MouseDoubleClick"
+                Cursor="Hand">
+                
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Cursor="Hand" FontFamily="Century Gothic" Header="Удалить" x:Name="DeleteButton" Click="DeleteButton_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter
+                            Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                            BorderThickness="1" 
+                            BorderBrush="Black" 
+                            CornerRadius="10">
+                            <Grid 
+                                Margin="10"
+                                HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="64"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image
+                                    Width="64" 
+                                    Height="64"
+                                    Source="{Binding Path=ImagePreview}" />
+
+                                <Grid Grid.Column="1" Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ProductType.Title}" FontFamily="Century Gothic"/>
+                                        <TextBlock Text=" | " FontFamily="Century Gothic"/>
+                                        <TextBlock Text="{Binding Title}" FontFamily="Century Gothic"/>
+                                    </StackPanel>
+
+                                    <TextBlock 
+                                        Text="{Binding ArticleNumber}"
+                                        Grid.Row="1"
+                                        FontFamily="Century Gothic"/>
+                                </Grid>
+
+                                <TextBlock 
+                                    Text="{Binding MinCostForAgent}"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Right"
+                                    Margin="10"
+                                    FontFamily="Century Gothic"/>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+            <StackPanel
+                Grid.Row="2"
+                HorizontalAlignment="Right" 
+                Orientation="Horizontal">
+                <Button 
+                    Content="Назад" 
+                    Name="PrevPage"
+                    Click="PrevPage_Click"
+                    Background="#a163f5"
+                    FontSize="20"
+                    FontFamily="Century Gothic"
+                    Cursor="Hand"/>
+                <TextBlock 
+                    Text="{Binding CurrentPage, StringFormat=Страница {0}}"
+                    VerticalAlignment="Center"
+                    Margin="5"
+                    FontFamily="Century Gothic"
+                    FontSize="14"/>
+                <Button
+                    Content="Вперёд"
+                    Name="NextPage"
+                    Click="NextPage_Click"
+                    Background="#a163f5"
+                    FontSize="20"
+                    FontFamily="Century Gothic"
+                    Cursor="Hand"/>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>

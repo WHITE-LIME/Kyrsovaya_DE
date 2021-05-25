@@ -1,0 +1,93 @@
+﻿<Window x:Class="DE.AddAndEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DE"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Century Gothic"
+        WindowStyle="None"
+        BorderThickness="1"
+        BorderBrush="#a163f5">
+    <Grid Margin="10">
+        <StackPanel>
+            <Label Content="Тип товара:"/>
+            <ComboBox
+                ItemsSource="{Binding productTypesss}"
+                SelectedItem="{Binding CurrentProduct.ProductType}"
+                FontFamily="Century Gothic"
+                Cursor="Hand">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Cursor="Hand" Content="{Binding Title}" FontFamily="Century Gothic"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label 
+                FontFamily="Century Gothic"
+                Content="Название:"/>
+            <TextBox 
+                FontFamily="Century Gothic"
+                Height="20"
+                Text="{Binding CurrentProduct.Title}"
+                Cursor="IBeam"/>
+            <Label 
+                FontFamily="Century Gothic"
+                Content="Артикул:"/>
+            <TextBox 
+                FontFamily="Century Gothic"
+                Height="20" 
+                Text="{Binding CurrentProduct.ArticleNumber}"
+                Cursor="IBeam"/>
+            <Label 
+                FontFamily="Century Gothic"
+                Content="Количество сотрудников на производстве:"/>
+            <TextBox 
+                FontFamily="Century Gothic"
+                Height="20"
+                Text="{Binding CurrentProduct.ProductionPersonCount}"
+                Cursor="IBeam"/>
+            <Label 
+                FontFamily="Century Gothic"
+                Content="Номер производственного цеха:"/>
+            <TextBox 
+                FontFamily="Century Gothic"
+                Height="20" 
+                Text="{Binding CurrentProduct.ProductionWorkshopNumber}"
+                Cursor="IBeam"/>
+            <Label 
+                FontFamily="Century Gothic"
+                Content="Минимальная цена для агента:"/>
+            <TextBox 
+                FontFamily="Century Gothic"
+                Height="20"
+                Text="{Binding CurrentProduct.MinCostForAgent}"
+                Cursor="IBeam"/>
+        </StackPanel>
+        <StackPanel 
+                VerticalAlignment="Bottom">
+
+            <Button
+                x:Name="SaveButton" 
+                Content="Сохранить"
+                Click="SaveButton_Click"
+                Margin="3"
+                Background="#a163f5"
+                FontSize="20"
+                FontFamily="Century Gothic"
+                Cursor="Hand"/>
+            <Button 
+                x:Name="BackButton"
+                Content="Назад"
+                Click="BackButton_Click"
+                Margin="3"
+                Background="#a163f5"
+                FontSize="20"
+                FontFamily="Century Gothic"
+                Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>
