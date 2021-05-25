@@ -19,7 +19,7 @@
     <td style="text-align: right; border: none; height: 20em;">
         <div style="float: right;" align="left">
           Разработал:</br>
-          Кожинов Кирилл Николаевич</br>
+          Кураедов Дмитрий Витальевич</br>
 </div>
     </td>
   </tr>
