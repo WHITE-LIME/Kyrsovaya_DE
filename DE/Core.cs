@@ -8,6 +8,6 @@ namespace DE
 {
     class Core
     {
-        public static kkuraedovEntities DB = new kkuraedovEntities();
+        public static kkEntities DB = new kkEntities();
     }
 }

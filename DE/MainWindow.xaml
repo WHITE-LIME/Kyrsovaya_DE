@@ -67,17 +67,55 @@
                     VerticalAlignment="Center"
                     FontFamily="Century Gothic"/>
 
+                <RadioButton
+                    GroupName="Rooms"
+                    Tag="1"
+                    Content="А-Я"
+                    IsChecked="True"
+                    Checked="RadioButton_Checked"
+                    VerticalAlignment="Center"
+                    Margin="0 0 10 0"/>
+                <RadioButton
+                    GroupName="Rooms"
+                    Tag="2"
+                    Content="Я-А"
+                    Checked="RadioButton_Checked"
+                    VerticalAlignment="Center"/>
+
+                <Label 
+                    Content="Фильтр: "
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Century Gothic"/>
+
                 <ComboBox
-                    Name="SortTypeComboBox"
-                    Height="20"
+                    x:Name="FilterTypeComboBox"
                     SelectedIndex="0"
                     VerticalContentAlignment="Center"
                     MinWidth="200"
-                    SelectionChanged="SortTypeComboBox_SelectionChanged"
-                    ItemsSource="{Binding SortList}"
-                    Background="#d3d3d3"
+                    MinHeight="10"
+                    SelectionChanged="FilterTypeComboBox_SelectionChanged"
+                    ItemsSource="{Binding ProductTypeList}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+
+                <Label 
+                    Margin="20 0 0 0"
+                    Content="Поиск:" 
+                    VerticalAlignment="Center"
+                    FontFamily="Century Gothic"/>
+                <TextBox
+                    Width="200"
+                    VerticalAlignment="Center"
+                    x:Name="SearchFilterTextBox" 
+                    KeyUp="SearchFilter_KeyUp"
                     FontFamily="Century Gothic"
-                    Cursor="Hand"/>
+                    BorderThickness="2"/>
             </WrapPanel>
 
             <ListView

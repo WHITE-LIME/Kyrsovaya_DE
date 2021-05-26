@@ -19,7 +19,7 @@ namespace DE
     /// </summary>
     public partial class AddAndEditWindow : Window
     {
-        public static kkuraedovEntities DB = new kkuraedovEntities();
+        public static kkEntities DB = new kkEntities();
         public Product CurrentProduct { get; set; }
         public IEnumerable<ProductType> productTypesss { get; set; }
 

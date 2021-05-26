@@ -44,22 +44,6 @@
                 Cursor="IBeam"/>
             <Label 
                 FontFamily="Century Gothic"
-                Content="Количество сотрудников на производстве:"/>
-            <TextBox 
-                FontFamily="Century Gothic"
-                Height="20"
-                Text="{Binding CurrentProduct.ProductionPersonCount}"
-                Cursor="IBeam"/>
-            <Label 
-                FontFamily="Century Gothic"
-                Content="Номер производственного цеха:"/>
-            <TextBox 
-                FontFamily="Century Gothic"
-                Height="20" 
-                Text="{Binding CurrentProduct.ProductionWorkshopNumber}"
-                Cursor="IBeam"/>
-            <Label 
-                FontFamily="Century Gothic"
                 Content="Минимальная цена для агента:"/>
             <TextBox 
                 FontFamily="Century Gothic"

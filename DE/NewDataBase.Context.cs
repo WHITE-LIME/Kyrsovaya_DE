@@ -13,10 +13,10 @@ namespace DE
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class kkuraedovEntities : DbContext
+    public partial class kkEntities : DbContext
     {
-        public kkuraedovEntities()
-            : base("name=kkuraedovEntities")
+        public kkEntities()
+            : base("name=kkEntities")
         {
         }
     

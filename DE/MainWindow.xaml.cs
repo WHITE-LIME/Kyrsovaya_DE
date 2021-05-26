@@ -32,16 +32,6 @@ namespace DE
 
         private IEnumerable<Product> _ProductList;
 
-        private int SortType = 0;
-        public string[] SortList { get; set; } = {
-            "Без сортировки",
-            "Название (А-Я)",
-            "Название (Я-А)",
-            "Цена по возрастанию",
-            "Цена по убыванию",
-            "Сначала с картинками",
-            "Сначала без картинок" };
-
         private int _CurrentPage = 1;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -56,9 +46,9 @@ namespace DE
             {
                 if (value > 0)
                 {
-                    if ((_ProductList.Count() % 20) == 0)
+                    if ((_ProductList.Count() % 10) == 0)
                     {
-                        if (value <= _ProductList.Count() / 20)
+                        if (value <= _ProductList.Count() / 10)
                         {
                             _CurrentPage = value;
                             Invalidate();
@@ -66,7 +56,7 @@ namespace DE
                     }
                     else
                     {
-                        if (value <= (_ProductList.Count() / 20) + 1)
+                        if (value <= (_ProductList.Count() / 10) + 1)
                         {
                             _CurrentPage = value;
                             Invalidate();
@@ -74,6 +64,51 @@ namespace DE
                     }
                 }
             }
+        }
+
+        private string _SearchFilter = "";
+        public string SearchFilter
+        {
+            get
+            {
+                return _SearchFilter;
+            }
+            set
+            {
+                _SearchFilter = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ApartmentsList"));
+                }
+            }
+        }
+
+        private void SearchFilter_KeyUp(object sender, KeyEventArgs e)
+        {
+            SearchFilter = SearchFilterTextBox.Text;
+            Invalidate();
+        }
+
+        private bool _SortList = true;
+        public bool SortList
+        {
+            get
+            {
+                return _SortList;
+            }
+            set
+            {
+                _SortList = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            SortList = (sender as RadioButton).Tag.ToString() == "1";
         }
 
         private void Invalidate()
@@ -88,29 +123,42 @@ namespace DE
             {
                 var Result = _ProductList;
 
-                switch (SortType)
-                {
-                    case 1:
-                        Result = Result.OrderBy(p => p.Title);
-                        break;
-                    case 2:
-                        Result = Result.OrderByDescending(p => p.Title);
-                        break;
-                    case 3:
-                        Result = Result.OrderBy(p => p.MinCostForAgent);
-                        break;
-                    case 4:
-                        Result = Result.OrderByDescending(p => p.MinCostForAgent);
-                        break;
-                    case 5:
-                        Result = Result.OrderByDescending(p => p.Image);
-                        break;
-                    case 6:
-                        Result = Result.OrderBy(p => p.Image);
-                        break;
-                }
+                if (_ProductTypeFilterValue > 0)
+                    Result = Result.Where(ai => ai.ProductTypeID == _ProductTypeFilterValue);
 
-                return Result.Skip((CurrentPage - 1) * 20).Take(20);
+                if (SearchFilter != "")
+                    Result = Result.Where(ai => ai.Title.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                if (SortList) Result = Result.OrderBy(ai => ai.Title);
+                else Result = Result.OrderByDescending(ai => ai.Title);
+
+                return Result.Skip((CurrentPage - 1) * 10).Take(10);
+
+                
+
+
+            }
+            set
+            {
+                _ProductList = value;
+
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+        }
+
+        public IEnumerable<Product> ProductsList
+        {
+            get
+            {
+                var Result = _ProductList;
+
+                if (SearchFilter != "")
+                    Result = Result.Where(ai => ai.Title.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                return Result;
             }
             set
             {
@@ -118,11 +166,31 @@ namespace DE
             }
         }
 
+        public List<ProductType> ProductTypeList { get; set; }
+
+        private int _ProductTypeFilterValue = 0;
+        public int ProductTypeFilterValue
+        {
+            get
+            {
+                return _ProductTypeFilterValue;
+            }
+            set
+            {
+                _ProductTypeFilterValue = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             ProductList = Core.DB.Product.ToArray();
+            ProductTypeList = Core.DB.ProductType.ToList();
+            ProductTypeList.Insert(0, new ProductType { Title = "Все типы" });
         }
 
 
@@ -140,12 +208,6 @@ namespace DE
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
             CurrentPage++;
-        }
-
-        private void SortTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SortType = SortTypeComboBox.SelectedIndex;
-            Invalidate();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -194,6 +256,11 @@ namespace DE
             }
             catch { }
 
+        }
+
+        private void FilterTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProductTypeFilterValue = (FilterTypeComboBox.SelectedItem as ProductType).ID;
         }
     }
 }
